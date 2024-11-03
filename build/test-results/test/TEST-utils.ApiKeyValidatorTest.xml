@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="utils.ApiKeyValidatorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-11-03T07:47:52" hostname="LOUIS-ASUS" time="0.067">
-  <properties/>
-  <testcase name="validate_InvalidApiKey_ShouldThrowInvalidApiKeyException()" classname="utils.ApiKeyValidatorTest" time="0.05"/>
-  <testcase name="validate_NullOrEmptyApiKey_ShouldThrowInvalidApiKeyException()" classname="utils.ApiKeyValidatorTest" time="0.006"/>
-  <testcase name="validate_ValidApiKey_ShouldNotThrowException()" classname="utils.ApiKeyValidatorTest" time="0.005"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
