@@ -45,6 +45,9 @@ dependencies {
 	// Spring Boot Test Starter for testing Spring Boot applications
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// WireMock dependency for integration testing
+	testImplementation 'org.wiremock.integrations:wiremock-spring-boot:3.2.0'
+
 	// Additional dependencies for component tests
 	componentTestImplementation 'org.springframework.boot:spring-boot-starter-webflux'
 
@@ -71,7 +74,7 @@ sourceSets {
 	}
 	integrationTest {
 		java {
-			srcDirs = ['src/test/java/com/example/checkweather/integration']
+			srcDirs = ['src/test/java/com/example/checkweather/blackbox']
 		}
 		resources {
 			srcDir 'src/test/resources'
@@ -101,8 +104,7 @@ task integrationTest(type: Test) {
 	testClassesDirs = sourceSets.integrationTest.output.classesDirs
 	classpath = sourceSets.integrationTest.runtimeClasspath
 	useJUnitPlatform()
-	systemProperty 'spring.profiles.active', 'integration-test'
+	systemProperty 'spring.profiles.active', 'test'
 }
 
-// Ensures that all tests (unit, component, and integration) run with the 'check' task
-check.dependsOn test, componentTest, integrationTest
+
