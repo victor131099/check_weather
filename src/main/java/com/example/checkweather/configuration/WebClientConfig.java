@@ -1,4 +1,4 @@
-package com.example.check_weather_api.configuration;
+package com.example.checkweather.configuration;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;

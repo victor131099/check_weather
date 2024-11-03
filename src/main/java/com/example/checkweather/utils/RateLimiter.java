@@ -1,6 +1,6 @@
-package com.example.check_weather_api.utils;
+package com.example.checkweather.utils;
 
-import com.example.check_weather_api.exception.RateLimitExceededException;
+import com.example.checkweather.exception.RateLimitExceededException;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

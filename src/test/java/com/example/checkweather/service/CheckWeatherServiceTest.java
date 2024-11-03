@@ -1,8 +1,8 @@
-package com.example.check_weather_api.service;
+package com.example.checkweather.service;
 
-import com.example.check_weather_api.model.CheckWeatherData;
-import com.example.check_weather_api.model.CheckWeatherResponse;
-import com.example.check_weather_api.repository.CheckWeatherRepository;
+import com.example.checkweather.model.CheckWeatherData;
+import com.example.checkweather.model.CheckWeatherResponse;
+import com.example.checkweather.repository.CheckWeatherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

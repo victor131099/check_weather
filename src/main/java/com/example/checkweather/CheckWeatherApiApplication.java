@@ -1,6 +1,6 @@
-package com.example.check_weather_api;
+package com.example.checkweather;
 
-import com.example.check_weather_api.configuration.ApiKeyConfig;
+import com.example.checkweather.configuration.ApiKeyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

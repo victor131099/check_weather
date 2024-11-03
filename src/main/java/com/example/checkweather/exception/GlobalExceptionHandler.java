@@ -1,4 +1,4 @@
-package com.example.check_weather_api.exception;
+package com.example.checkweather.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

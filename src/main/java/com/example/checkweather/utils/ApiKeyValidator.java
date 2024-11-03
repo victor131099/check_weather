@@ -1,7 +1,7 @@
-package com.example.check_weather_api.utils;
+package com.example.checkweather.utils;
 
-import com.example.check_weather_api.configuration.ApiKeyConfig;
-import com.example.check_weather_api.exception.InvalidApiKeyException;
+import com.example.checkweather.configuration.ApiKeyConfig;
+import com.example.checkweather.exception.InvalidApiKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

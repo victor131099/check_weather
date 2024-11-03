@@ -1,14 +1,12 @@
-package com.example.check_weather_api.service;
+package com.example.checkweather.service;
 
-import com.example.check_weather_api.model.CheckWeatherData;
-import com.example.check_weather_api.model.CheckWeatherResponse;
-import com.example.check_weather_api.repository.CheckWeatherRepository;
+import com.example.checkweather.model.CheckWeatherData;
+import com.example.checkweather.model.CheckWeatherResponse;
+import com.example.checkweather.repository.CheckWeatherRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

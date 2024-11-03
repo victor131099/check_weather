@@ -1,4 +1,4 @@
-package com.example.check_weather_api;
+package com.example.checkweather;
 
 
 class CheckWeatherApiApplicationTest {

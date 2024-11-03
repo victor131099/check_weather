@@ -1,11 +1,11 @@
-package com.example.check_weather_api.controller;
+package com.example.checkweather.controller;
 
-import com.example.check_weather_api.exception.ApiErrorHandler;
-import com.example.check_weather_api.exception.InvalidApiKeyException;
-import com.example.check_weather_api.exception.RateLimitExceededException;
-import com.example.check_weather_api.service.CheckWeatherService;
-import com.example.check_weather_api.utils.ApiKeyValidator;
-import com.example.check_weather_api.utils.RateLimiter;
+import com.example.checkweather.exception.ApiErrorHandler;
+import com.example.checkweather.exception.InvalidApiKeyException;
+import com.example.checkweather.exception.RateLimitExceededException;
+import com.example.checkweather.service.CheckWeatherService;
+import com.example.checkweather.utils.ApiKeyValidator;
+import com.example.checkweather.utils.RateLimiter;
 import jakarta.validation.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

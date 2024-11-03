@@ -1,4 +1,4 @@
-package com.example.check_weather_api.model;
+package com.example.checkweather.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

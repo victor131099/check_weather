@@ -1,4 +1,4 @@
-package com.example.check_weather_api.exception;
+package com.example.checkweather.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
