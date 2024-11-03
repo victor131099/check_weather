@@ -4,8 +4,9 @@ import com.example.check_weather_api.exception.RateLimitExceededException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,7 +43,7 @@ class RateLimiterTest {
     }
 
     @Test
-    void enforceRateLimit_AfterReset_ShouldAllowRequests() {
+    void enforceRateLimit_AfterReset_ShouldAllowRequests() throws InterruptedException, NoSuchFieldException, IllegalAccessException {
         String clientApiKey = "testClient";
 
         // Make 5 requests within limit
@@ -50,8 +51,20 @@ class RateLimiterTest {
             rateLimiter.enforceRateLimit(clientApiKey);
         }
 
-        // Simulate time passing by setting firstRequestTime to more than an hour ago
-        rateLimiter.getFirstRequestTime().minus(1, ChronoUnit.HOURS);
+        // Access `rateLimitMap` using reflection
+        Field rateLimitMapField = RateLimiter.class.getDeclaredField("rateLimitMap");
+        rateLimitMapField.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, RateLimiter> rateLimitMap = (Map<String, RateLimiter>) rateLimitMapField.get(rateLimiter);
+
+        // Retrieve the RateLimiter instance for the specific client API key
+        RateLimiter clientRateLimiter = rateLimitMap.get(clientApiKey);
+
+        // Use reflection to set `firstRequestTime` to one hour earlier
+        Field firstRequestTimeField = RateLimiter.class.getDeclaredField("firstRequestTime");
+        firstRequestTimeField.setAccessible(true);
+        firstRequestTimeField.set(clientRateLimiter, LocalDateTime.now().minusHours(1));
 
         // After reset, 5 more requests should be allowed without throwing an exception
         for (int i = 0; i < 5; i++) {

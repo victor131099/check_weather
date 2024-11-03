@@ -4,32 +4,30 @@ import com.example.check_weather_api.configuration.ApiKeyConfig;
 import com.example.check_weather_api.exception.InvalidApiKeyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ApiKeyValidatorTest {
 
-    @Mock
-    private ApiKeyConfig apiKeyConfig;
-
-    @InjectMocks
     private ApiKeyValidator apiKeyValidator;
 
     private final List<String> validKeys = Arrays.asList("validApiKey1", "validApiKey2");
 
     @BeforeEach
     void setUp() {
-        // Initialize mocks
         MockitoAnnotations.openMocks(this);
-        // Mocking the getKeys method to return a predefined list of valid API keys
-        when(apiKeyConfig.getKeys()).thenReturn(validKeys);
+
+        // Create a spy of ApiKeyConfig and configure it to return validKeys
+        ApiKeyConfig apiKeyConfigSpy = spy(new ApiKeyConfig());
+        doReturn(validKeys).when(apiKeyConfigSpy).getKeys();
+
+        // Manually instantiate ApiKeyValidator with the spy
+        apiKeyValidator = new ApiKeyValidator(apiKeyConfigSpy);
     }
 
     @Test
@@ -54,7 +52,8 @@ class ApiKeyValidatorTest {
 
     @Test
     void validate_ValidApiKey_ShouldNotThrowException() {
-        // Using a valid API key from the mocked list
+        // Test with a valid API key, expecting no exceptions to be thrown
         assertDoesNotThrow(() -> apiKeyValidator.validate("validApiKey1"));
     }
 }
+
