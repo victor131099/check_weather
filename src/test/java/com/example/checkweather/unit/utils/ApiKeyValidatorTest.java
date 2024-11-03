@@ -1,7 +1,8 @@
-package com.example.checkweather.utils;
+package utils;
 
-import com.example.checkweather.configuration.ApiKeyConfig;
 import com.example.checkweather.exception.InvalidApiKeyException;
+import com.example.checkweather.configuration.ApiKeyConfig;
+import com.example.checkweather.utils.ApiKeyValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;

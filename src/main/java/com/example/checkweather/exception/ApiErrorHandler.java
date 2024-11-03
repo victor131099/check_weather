@@ -25,7 +25,7 @@ public class ApiErrorHandler {
 
         // Default to 500 if unknown error
         logger.error("Unknown error occurred for city: {}, country: {}", city, country, error);
-        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error occurred."));
+        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Service Unavailable"));
     }
 }
 

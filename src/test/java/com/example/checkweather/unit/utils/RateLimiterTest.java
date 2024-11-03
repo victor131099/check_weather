@@ -1,6 +1,7 @@
-package com.example.checkweather.utils;
+package utils;
 
 import com.example.checkweather.exception.RateLimitExceededException;
+import com.example.checkweather.utils.RateLimiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
