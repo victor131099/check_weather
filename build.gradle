@@ -18,6 +18,12 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	// Define custom configurations for component and integration tests
+	componentTestImplementation.extendsFrom testImplementation
+	integrationTestImplementation.extendsFrom testImplementation
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
@@ -38,9 +44,67 @@ dependencies {
 
 	// Spring Boot Test Starter for testing Spring Boot applications
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
+
+	// WireMock dependency for integration testing
+	testImplementation 'org.wiremock.integrations:wiremock-spring-boot:3.2.0'
+
+	// Additional dependencies for component tests
+	componentTestImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Additional dependencies for integration tests
+	integrationTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	integrationTestImplementation 'com.h2database:h2'
+}
+
+sourceSets {
+	test {
+		java {
+			srcDirs = ['src/test/java/com/example/checkweather/unit']
+		}
+	}
+	componentTest {
+		java {
+			srcDirs = ['src/test/java/com/example/checkweather/component']
+		}
+		resources {
+			srcDir 'src/test/resources'
+		}
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
+	integrationTest {
+		java {
+			srcDirs = ['src/test/java/com/example/checkweather/blackbox']
+		}
+		resources {
+			srcDir 'src/test/resources'
+		}
+		compileClasspath += sourceSets.main.output + sourceSets.test.output
+		runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+	}
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	systemProperty 'spring.profiles.active', 'test' // Unit test profile
 }
+
+task componentTest(type: Test) {
+	description = 'Runs component tests'
+	group = 'verification'
+	testClassesDirs = sourceSets.componentTest.output.classesDirs
+	classpath = sourceSets.componentTest.runtimeClasspath
+	useJUnitPlatform()
+	systemProperty 'spring.profiles.active', 'component-test'
+}
+
+task integrationTest(type: Test) {
+	description = 'Runs integration tests'
+	group = 'verification'
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	useJUnitPlatform()
+	systemProperty 'spring.profiles.active', 'test'
+}
+
+

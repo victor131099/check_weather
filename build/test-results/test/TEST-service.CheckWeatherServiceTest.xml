@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="service.CheckWeatherServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-11-03T07:47:51" hostname="LOUIS-ASUS" time="0.672">
+  <properties/>
+  <testcase name="fetchWeatherData_whenDataNotInRepository_shouldFetchFromExternalApi()" classname="service.CheckWeatherServiceTest" time="0.646"/>
+  <testcase name="getWeatherDescription_whenApiReturnsError_shouldReturnError()" classname="service.CheckWeatherServiceTest" time="0.013"/>
+  <testcase name="getWeatherDescription_whenDataExistsInRepository_shouldReturnDescription()" classname="service.CheckWeatherServiceTest" time="0.005"/>
+  <testcase name="saveWeatherData_whenFetchedDataIsPresent_shouldSaveToRepository()" classname="service.CheckWeatherServiceTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
