@@ -56,4 +56,4 @@ jobs:
 #      - name: Push Docker Image
 #        run: |
 #          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.ECR_URL }}
-#          docker push ${{ secrets.ECR_URL }}:latest fs
+#          docker push ${{ secrets.ECR_URL }}:latest 
