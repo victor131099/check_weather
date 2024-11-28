@@ -3,8 +3,8 @@ name: CI Pipeline
 on:
   push:
     branches: [ "feature/Add-CI-CD-pipeline-" ]
-#    pull_request:
-#      branches: [ "master" ]
+    pull_request:
+      branches: [ "feature/Add-CI-CD-pipeline-" ]
 
 jobs:
   build-and-deploy:
