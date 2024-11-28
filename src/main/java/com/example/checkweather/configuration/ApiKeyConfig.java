@@ -13,4 +13,15 @@ import java.util.List;
 @ConfigurationProperties(prefix = "openweathermap.api")
 public class ApiKeyConfig {
     private List<String> keys;
+    private Client client;
+
+    @Getter
+    @Setter
+    public static class Client {
+        private String baseUrl;
+        private int connTimeout;
+        private int readTimeout;
+        private int writeTimeout;
+        private int responseTimeout;
+    }
 }
