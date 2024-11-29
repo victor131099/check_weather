@@ -14,6 +14,7 @@ env:
   AWS_REGION: ap-southeast-2 # Update to your AWS region
   ECR_REPOSITORY: check_weather
   IMAGE_TAG: ${{ github.sha }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
 jobs:
   build:
@@ -53,8 +54,7 @@ jobs:
       # Step 7: Login to Amazon ECR using AWS_ACCESS_KEY_ID
       - name: Login to Amazon ECR
         run: |
-          aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
       # Step 8: Build and Push Docker Image to ECR
       - name: build and push
@@ -63,8 +63,8 @@ jobs:
           context: .
           push: 'true'
           tags: |
-            ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-            ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
           file: ./Dockerfile
 
 #  deploy-infrastructure:
