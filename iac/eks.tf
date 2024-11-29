@@ -18,7 +18,7 @@ module "eks" {
       max_size     = 2
       desired_size = 1
 
-      instance_types = ["t3a.small"]  # 2 vCPU, 2GB RAM
+      instance_types = ["t3a.medium"]  # 2 vCPU, 2GB RAM
       capacity_type  = "SPOT"         # Using spot instances for cost savings
 
       tags = {
