@@ -50,18 +50,28 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
 
-      # Step 7: Login to Amazon ECR using AWS_ACCESS_KEY_ID
-      - name: Login to Amazon ECR
+      # Step 7: Install and Configure AWS ECR Credential Helper
+      - name: Install AWS ECR Credential Helper
         run: |
+<<<<<<< Updated upstream:.github/workflows/ci.yml
           aws_account_id=$(aws sts get-caller-identity --query "Account" --output text)
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+=======
+          sudo apt-get update
+          sudo apt-get install -y amazon-ecr-credential-helper
+
+      - name: Configure Docker to Use Credential Helper
+        run: |
+          mkdir -p ~/.docker
+          echo '{"credHelpers": {"${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com": "ecr-login"}}' > ~/.docker/config.json
+>>>>>>> Stashed changes:.github/workflow/ci.yml
 
       # Step 8: Build and Push Docker Image to ECR
-      - name: build and push
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: 'true'
+          push: true
           tags: |
             ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
             ${aws_account_id}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
