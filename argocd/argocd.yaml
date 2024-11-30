@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/louisnguyen88/check_weather.git
-    targetRevision: feature/Add-CI-CD-pipeline-
+    targetRevision: HEAD
     path: k8s
   destination:
     server: https://kubernetes.default.svc
