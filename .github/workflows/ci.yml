@@ -67,6 +67,40 @@ jobs:
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
           file: ./Dockerfile
 
+#  modifygit:
+#    needs: docker
+#    runs-on: ubuntu-latest
+#    steps:
+#      # Step 1: Checkout Deployment Repository
+#      - name: Checkout Deployment Repository
+#        uses: actions/checkout@v3
+#        with:
+#          repository: 'louisnguyen88/iac_checkweather'
+#          token: ${{ secrets.GIT_PASSWORD }}
+#
+#      # Step 2: Update Deployment Image
+#      - name: Update Deployment Image
+#        run: |
+#          # Configure Git
+#          git config user.email "louisnguyen252@gmail.com"
+#          git config user.name "louisnguyen88"
+#
+#          # Replace the image tag in the deployment.yaml file
+#          sed -i "s+image:.*+image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}+g" deployment.yaml
+#
+#          # Verify changes
+#          echo "Updated deployment.yaml file:"
+#          cat deployment.yaml
+#
+#          # Commit and push changes
+#          git add deployment.yaml
+#          git commit -m "Update Docker image to ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
+#          git push origin main
+#        env:
+#          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+#          AWS_REGION: ${{ env.AWS_REGION }}
+#          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+
 #  deploy-infrastructure:
 #    needs: build
 #    runs-on: ubuntu-22.04
