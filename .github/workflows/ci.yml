@@ -101,34 +101,19 @@ jobs:
 #          AWS_REGION: ${{ env.AWS_REGION }}
 #          IMAGE_TAG: ${{ env.IMAGE_TAG }}
 
-#  deploy-infrastructure:
-#    needs: build
-#    runs-on: ubuntu-22.04
-#    if: github.ref == 'refs/heads/master'
-#
+#  trigger-argocd:
+#    needs: modifygit
+#    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: configure aws credentials
-#        uses: aws-actions/configure-aws-credentials@v4
-#        with:
-#          aws-region: 'ap-southeast-2'
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-#
-#      - name: setup terraform
-#        uses: hashicorp/setup-terraform@v2
-#        with:
-#          terraform_version: '1.10.0'
-#
-#      - name: permit terraform script
-#        run: chmod +x ./scripts/terraform-eks.sh
-#
-#      - name: init terraform
-#        run: ./scripts/terraform-eks.sh init
-#
-#      - name: plan terraform
-#        run: ./scripts/terraform-eks.sh plan
-#
-#      - name: apply terraform
-#        run: ./scripts/terraform-eks.sh apply
+#      - name: Install Argo CD CLI
+#        run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
+#      - name: Login to Argo CD
+#        run: |
+#          argocd login <ARGO_CD_SERVER> \
+#            --username ${{ secrets.ARGOCD_USERNAME }} \
+#            --password ${{ secrets.ARGOCD_PASSWORD }} \
+#            --grpc-web
+#      - name: Trigger Argo CD Sync
+#        run: |
+#          argocd app sync check-weather-app \
+#            --grpc-web

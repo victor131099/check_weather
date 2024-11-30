@@ -4,7 +4,7 @@ ACTION=""
 REGION=ap-southeast-2
 CLUSTER_NAME="eks-cluster"
 #TERRAFORM_DIR="${GITHUB_WORKSPACE}/terraform"
-TERRAFORM_DIR="../terraform"
+TERRAFORM_DIR="../iac"
 
 function check_aws_credentials {
   if ! aws sts get-caller-identity &>/dev/null; then
