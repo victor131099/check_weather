@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: check-weather
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/louisnguyen88/check_weather.git
+    targetRevision: feature/Add-CI-CD-pipeline-
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: check-weather
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

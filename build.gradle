@@ -1,7 +1,10 @@
+import com.avast.gradle.dockercompose.RemoveImages
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.3.5'
+	id 'org.springframework.boot' version '3.1.4'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "com.avast.gradle.docker-compose" version "0.17.10"
 }
 
 group = 'com.example'
@@ -25,6 +28,7 @@ configurations {
 }
 
 dependencies {
+	// Spring Boot dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'io.r2dbc:r2dbc-h2'
@@ -35,9 +39,6 @@ dependencies {
 	// Lombok for reducing boilerplate code
 	implementation 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
-	// Jackson for JSON processing (typically included with Spring Boot WebFlux)
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 	// Reactor Test for testing reactive streams
 	testImplementation 'io.projectreactor:reactor-test'
@@ -54,6 +55,9 @@ dependencies {
 	// Additional dependencies for integration tests
 	integrationTestImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	integrationTestImplementation 'com.h2database:h2'
+
+	// Configuration processor for custom properties
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
 sourceSets {
@@ -107,4 +111,26 @@ task integrationTest(type: Test) {
 	systemProperty 'spring.profiles.active', 'test'
 }
 
+// Docker Compose configuration
+dockerCompose {
+	useComposeFiles = ['compose.yaml'] // Ensure compose.yaml exists in the project root
+	startedServices = ['app']          // Replace 'app' with your service name in compose.yaml
+	stopContainers = true              // Stop containers when the build finishes
+	removeContainers = true            // Remove containers after stopping
+	removeImages = RemoveImages.None             // Do not remove Docker images
+	removeVolumes = true               // Remove volumes to avoid stale data
+	buildBeforeUp = true               // Build services before starting
+}
 
+// Optional standalone Docker tasks, separate from build
+tasks.register('startDockerContainers') {
+	group = 'docker'
+	description = 'Starts the Docker containers using Docker Compose.'
+	dependsOn 'composeUp'
+}
+
+tasks.register('stopDockerContainers') {
+	group = 'docker'
+	description = 'Stops the Docker containers using Docker Compose.'
+	dependsOn 'composeDown'
+}

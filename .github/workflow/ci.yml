@@ -1,0 +1,100 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - "master"
+      - "feature/**"
+  pull_request:
+    branches:
+      - "master"
+      - "feature/**"
+
+env:
+  AWS_REGION: ap-southeast-2 # Update to your AWS region
+  ECR_REPOSITORY: check_weather
+  IMAGE_TAG: ${{ github.sha }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Step 1: Check out code
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up Java environment
+      - name: setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Step 3: Set up Gradle
+      - name: setup gradle
+        uses: gradle/gradle-build-action@v2
+
+      # Step 4: Set execute permissions for Gradle wrapper
+      - name: define shell permit
+        run: chmod +x ./gradlew
+
+      # Step 5: Build the application
+      - name: build
+        run: ./gradlew clean build
+
+      # Step 6: Configure AWS Credentials
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: 'ap-southeast-2'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+
+      # Step 7: Login to Amazon ECR using AWS_ACCESS_KEY_ID
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+
+      # Step 8: Build and Push Docker Image to ECR
+      - name: build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: 'true'
+          tags: |
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+          file: ./Dockerfile
+
+#  deploy-infrastructure:
+#    needs: build
+#    runs-on: ubuntu-22.04
+#    if: github.ref == 'refs/heads/master'
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: configure aws credentials
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#          aws-region: 'ap-southeast-2'
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+#
+#      - name: setup terraform
+#        uses: hashicorp/setup-terraform@v2
+#        with:
+#          terraform_version: '1.10.0'
+#
+#      - name: permit terraform script
+#        run: chmod +x ./scripts/terraform-eks.sh
+#
+#      - name: init terraform
+#        run: ./scripts/terraform-eks.sh init
+#
+#      - name: plan terraform
+#        run: ./scripts/terraform-eks.sh plan
+#
+#      - name: apply terraform
+#        run: ./scripts/terraform-eks.sh apply

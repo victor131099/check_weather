@@ -1,0 +1,13 @@
+# WebClient configuration for testing
+openweathermap:
+  api:
+    client:
+      connTimeout: 5000
+      readTimeout: 5000
+      writeTimeout: 5000
+      responseTimeout: 5000
+      baseUrl: http://localhost:3000
+    keys:
+      - test-api-key1
+      - test-api-key2
+      - test-api-key3

@@ -1,0 +1,44 @@
+
+# R2DBC Configuration
+spring:
+  profiles:
+    active: default
+  r2dbc:
+    url: r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  cache:
+    type: SIMPLE
+    cache-names:
+      - weather
+
+# OpenWeatherMap API Configuration
+openweathermap:
+  api:
+    keys:
+      - aed58581a199105e32c677448ce408ec
+      - e6012e2905ad83d08b3a1706ced5fc26
+      - c58820adaeb7fee7cfde715544b128ec
+      - 53ee09e852742e44d898ebd39c675824
+      - bf7f33a7db8cf80d4cb60e17ba6aff69
+    client:
+      baseUrl: https://api.openweathermap.org/data/2.5/weather
+      connTimeout: 5000
+      readTimeout: 5000
+      writeTimeout: 5000
+      responseTimeout: 5000
+
+# Logging Configuration
+#logging:
+#  level:
+#    org.springframework.boot.context.properties.: DEBUG
+#    org.springframework.web: DEBUG
+#    org.springframework.r2dbc: DEBUG
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
