@@ -28,6 +28,7 @@ module "eks" {
     }
   }
 
+
   cluster_enabled_log_types = ["api"]
 
   tags = {

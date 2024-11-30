@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/louisnguyen88/check_weather.git
-    targetRevision: HEAD
+    targetRevision: master
     path: k8s
   destination:
     server: https://kubernetes.default.svc
