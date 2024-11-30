@@ -22,7 +22,9 @@ data:
         type: SIMPLE
         cache-names:
           - weather
-
+    server:
+      port: 8081
+    
     openweathermap:
       api:
         keys:

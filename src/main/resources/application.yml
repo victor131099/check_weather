@@ -32,6 +32,9 @@ openweathermap:
       writeTimeout: 5000
       responseTimeout: 5000
 
+server:
+  port: 8081
+
 # Logging Configuration
 #logging:
 #  level:
