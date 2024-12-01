@@ -1,6 +1,7 @@
 name: CI Pipeline
-permissions: write-all
 
+permissions:
+   contents: write
 on:
   push:
     branches:
@@ -20,7 +21,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-22.04
-
     steps:
       # Step 1: Check out code
       - uses: actions/checkout@v4
