@@ -74,7 +74,7 @@ jobs:
       - uses: actions/checkout@v3
         name: changing the deployment of the IAC repo
         with:
-          repository: 'https://github.com/louisnguyen88/iac_checkweather.git'
+          repository: 'louisnguyen88/iac_checkweather'
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: modify the image
