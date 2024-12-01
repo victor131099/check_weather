@@ -1,4 +1,5 @@
 name: CI Pipeline
+permissions: write-all
 
 on:
   push:
