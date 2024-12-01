@@ -67,14 +67,15 @@ jobs:
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
           file: ./Dockerfile
 
-  modifygit:
+  updateIACrepo:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        name: changing the deployment of git repo
+        name: changing the deployment of the IAC repo
         with:
-          repository: 'louisnguyen88/iac_checkweather'
+          repository: 'https://github.com/louisnguyen88/iac_checkweather.git'
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: modify the image
         run: |
