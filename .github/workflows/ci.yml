@@ -67,53 +67,28 @@ jobs:
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
           file: ./Dockerfile
 
-#  modifygit:
-#    needs: docker
-#    runs-on: ubuntu-latest
-#    steps:
-#      # Step 1: Checkout Deployment Repository
-#      - name: Checkout Deployment Repository
-#        uses: actions/checkout@v3
-#        with:
-#          repository: 'louisnguyen88/iac_checkweather'
-#          token: ${{ secrets.GIT_PASSWORD }}
-#
-#      # Step 2: Update Deployment Image
-#      - name: Update Deployment Image
-#        run: |
-#          # Configure Git
-#          git config user.email "louisnguyen252@gmail.com"
-#          git config user.name "louisnguyen88"
-#
-#          # Replace the image tag in the deployment.yaml file
-#          sed -i "s+image:.*+image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}+g" deployment.yaml
-#
-#          # Verify changes
-#          echo "Updated deployment.yaml file:"
-#          cat deployment.yaml
-#
-#          # Commit and push changes
-#          git add deployment.yaml
-#          git commit -m "Update Docker image to ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
-#          git push origin main
-#        env:
-#          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-#          AWS_REGION: ${{ env.AWS_REGION }}
-#          IMAGE_TAG: ${{ env.IMAGE_TAG }}
-
-#  trigger-argocd:
-#    needs: modifygit
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Install Argo CD CLI
-#        run: curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && chmod +x /usr/local/bin/argocd
-#      - name: Login to Argo CD
-#        run: |
-#          argocd login <ARGO_CD_SERVER> \
-#            --username ${{ secrets.ARGOCD_USERNAME }} \
-#            --password ${{ secrets.ARGOCD_PASSWORD }} \
-#            --grpc-web
-#      - name: Trigger Argo CD Sync
-#        run: |
-#          argocd app sync check-weather-app \
-#            --grpc-web
+  modifygit:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: changing the deployment of git repo
+        with:
+          repository: 'louisnguyen88/iac_checkweather'
+          token: ${{ secrets.GIT_PASSWORD }}
+      - name: modify the image
+        run: |
+          git config user.email louisnguyen252@gmail.com
+          git config user.name louisnguyen88
+          pwd
+          cat deployment.yaml
+          pwd
+          sed -i "s+tanmay238/images.*+tanmay238/images:app-$RUN_NUMBER+g" deployment.yaml
+          cat deployment.yaml
+          git add .
+          git commit -m 'Done  by Github Actions   Job changemanifest: ${{ github.run_number }}'
+          git push origin main
+        env:
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+          RUN_NUMBER: ${{ github.run_number }}
