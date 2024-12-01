@@ -75,7 +75,7 @@ jobs:
         name: changing the deployment of the IAC repo
         with:
           repository: 'louisnguyen88/iac_checkweather'
-          ref: main
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: modify the image
         run: |
