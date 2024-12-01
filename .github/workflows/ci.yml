@@ -75,7 +75,7 @@ jobs:
         name: changing the deployment of git repo
         with:
           repository: 'louisnguyen88/iac_checkweather'
-          token: ${{ secrets.GIT_PASSWORD }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: modify the image
         run: |
           git config user.email louisnguyen252@gmail.com
@@ -88,8 +88,4 @@ jobs:
           git commit -m 'Done  by Github Actions   Job changemanifest: ${{ github.run_number }}'
           git push origin main
         env:
-          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
-          AWS_REGION: ${{ env.AWS_REGION }}
-          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
